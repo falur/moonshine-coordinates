@@ -1,34 +1,45 @@
-# Spatie + Uppy поле для загрузки файлов и изображений для Moonshine админ панеле
+# Поле для выбора точки на карте и сохраненя координат, использует LeafLet
 
 ## Установка
 ```shell
-composer require gian_tiaga/moonshine-file
+composer require gian_tiaga/moonshine-coordinates
 ```
 
-## Usage
-Сначала установите пакет от spatie
-[https://spatie.be/docs/laravel-medialibrary
-](https://spatie.be/docs/laravel-medialibrary)
+## Использование
 
-Потом настройте свои модели
-
-После в своих ресурсах пожно использовать поле
+1) Добавьте в миграцию поле с координатами 
 ```php
-SpatieUppyFile::make('Фото', 'photo')
-    ->multiple()
-    ->countFiles(5)
-    ->image()
+$table->json('coordinates')->nullable();
 ```
-
-Можно указать нужны mime тип
+2) Добавьте в свою модель `cast`
 ```php
-SpatieUppyFile::make('Фото', 'photo')
-    ->allowedFileTypes('video/*')
+use GianTiaga\MoonshineCoordinates\Casts\CoordinatesCast;
+
+// ...code
+
+/**
+ * @return array<string, string>
+ */
+protected function casts(): array
+{
+    return [
+        'coordinates' => CoordinatesCast::class,
+    ];
+}
 ```
-![demo](images/1.jpg)
+3) Используйте поле в своём ресурсе
+```php
+use GianTiaga\MoonshineCoordinates\Dto\CoordinatesDto;
+use GianTiaga\MoonshineCoordinates\Fields\Coordinates;
 
-Поле можно использовать внутри JSON
+// ...code
 
-Но есть нюанс: 
-
-Значение не будет добавлено в модель ресурса, а сохранится в json как массив с привязкой к общей моделе Media, поэтому нужно указать cast где вы по ид сможете создать модель и пользоваться полями.
+Coordinates::make('Расположение', 'coordinates')
+    ->center(new CoordinatesDto(
+        latitude: 55.7505412, 
+        longitude: 37.6174782
+    ))
+    ->zoom(10), 
+```
+## Как выглядит
+![demo](demo/demo.webp)
