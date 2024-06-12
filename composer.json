@@ -1,0 +1,41 @@
+{
+  "name": "gian_tiaga/moonshine-coordinates",
+  "description": "Field of coordinates on leaflet map for moonshine admin panel",
+  "keywords": ["moonshine", "leaflet", "coordinates", "map"],
+  "type": "library",
+  "license": "MIT",
+  "support": {
+    "issues": "https://github.com/falur/moonshine-coordinates/issues",
+    "source": "https://github.com/falur/moonshine-coordinates"
+  },
+  "authors": [
+    {
+      "name": "Enakaev Ildar",
+      "email": "ienakaev@ya.ru",
+      "homepage": "https://ildar.yoga"
+    }
+  ],
+  "require": {
+    "php": "^8.2"
+  },
+  "require-dev": {
+    "spatie/laravel-medialibrary": "^11.5",
+    "moonshine/moonshine": "^2.14",
+    "laravel/framework": "^11.10"
+  },
+  "autoload": {
+    "psr-4": {
+      "GianTiaga\\MoonshineCoordinates\\": "src/"
+    }
+  },
+  "conflict": {
+    "moonshine/moonshine": "<2.0"
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "GianTiaga\\MoonshineCoordinates\\ServiceProvider"
+      ]
+    }
+  }
+}
