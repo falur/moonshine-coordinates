@@ -19,7 +19,6 @@
     "php": "^8.2"
   },
   "require-dev": {
-    "spatie/laravel-medialibrary": "^11.5",
     "moonshine/moonshine": "^2.14",
     "laravel/framework": "^11.10",
     "larastan/larastan": "^2.0",
