@@ -99,9 +99,10 @@ class Coordinates extends Field implements HasDefaultValue
     {
         /** @var string $result */
         $result = parent::requestValue($index);
+        /** @var array{latitude: float, longitude: float} $data */
+        $data = json_decode($result, true);
 
-        return CoordinatesDto::fromArray(
-            json_decode($result, true)
-        );
+
+        return CoordinatesDto::fromArray($data);
     }
 }

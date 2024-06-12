@@ -13,7 +13,7 @@ readonly class CoordinatesDto
     }
 
     /**
-     * @return array{latitude: float, longitude: float}
+     * @return array{latitude: ?float, longitude: ?float}
      */
     public function toArray(): array
     {
@@ -23,13 +23,24 @@ readonly class CoordinatesDto
         ];
     }
 
+    /**
+     * @throws \Exception
+     */
     public function toJson(): string
     {
-        return json_encode($this->toArray());
+        $json = json_encode($this->toArray());
+
+        if (!$json) {
+            throw new \Exception(
+                'Can\'t encode json, error: ' . json_last_error_msg()
+            );
+        }
+
+        return $json;
     }
 
     /**
-     * @param array{latitude: float, longitude: float} $data
+     * @param array{latitude?: ?float, longitude?: ?float} $data
      * @return self
      */
     public static function fromArray(array $data): self

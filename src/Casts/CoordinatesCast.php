@@ -8,6 +8,9 @@ use GianTiaga\MoonshineCoordinates\Dto\CoordinatesDto;
 use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @implements CastsAttributes<CoordinatesDto, ?string>
+ */
 class CoordinatesCast implements CastsAttributes
 {
     /**
@@ -17,11 +20,20 @@ class CoordinatesCast implements CastsAttributes
      */
     public function get(Model $model, string $key, mixed $value, array $attributes): mixed
     {
+        /** @var ?string $value */
         if (!$value) {
             return new CoordinatesDto();
         }
 
-        return CoordinatesDto::fromArray(json_decode($value, true));
+        $value = json_decode($value, true);
+        if (!$value) {
+            throw new \Exception(
+                'Can\'t encode json, error: ' . json_last_error_msg()
+            );
+        }
+
+        /** @var array{latitude: ?float, longitude: ?float} $value */
+        return CoordinatesDto::fromArray($value);
     }
 
     /**
