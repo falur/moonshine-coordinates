@@ -38,8 +38,8 @@
     }"
     x-init="
         if (value && value.latitude !== undefined && value.longitude !== undefined) {
-            lat = value.latitude;
-            lng = value.longitude;
+            latitude = value.latitude;
+            longitude = value.longitude;
         }
 
         $nextTick(function () {
@@ -56,10 +56,12 @@
                 shadowUrl: base64shadow
             });
 
-            const hasValue = lat && lng;
+            const hasValue = latitude && longitude;
 
             map = L.map($refs.map, {
-                center: hasValue ? [lat, lng] : [center.latitude, center.longitude],
+                center: hasValue
+                    ? [latitude, longitude]
+                    : [center.latitude, center.longitude],
                 zoom: hasValue ? 14 : zoom,
                 scrollWheelZoom: false,
             });
@@ -68,7 +70,7 @@
                 attribution: '&copy; <a href=\'https://www.openstreetmap.org/copyright\'>OpenStreetMap</a> contributors'
             }).addTo(map);
 
-            marker = L.marker(center, {
+            marker = L.marker([center.latitude, center.longitude], {
                 icon: markerIcon,
                 draggable: true,
                 autoPan: true,
@@ -76,7 +78,7 @@
             }).addTo(map);
 
             if (hasValue) {
-                marker.setLatLng([lat, lng]);
+                marker.setLatLng([latitude, longitude]);
             }
 
             marker.on('dragend', () => {

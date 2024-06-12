@@ -17,6 +17,10 @@ class CoordinatesCast implements CastsAttributes
      */
     public function get(Model $model, string $key, mixed $value, array $attributes): mixed
     {
+        if (!$value) {
+            return new CoordinatesDto();
+        }
+
         return CoordinatesDto::fromArray(json_decode($value, true));
     }
 
@@ -27,6 +31,10 @@ class CoordinatesCast implements CastsAttributes
      */
     public function set(Model $model, string $key, mixed $value, array $attributes): mixed
     {
+        if (!$value) {
+            return null;
+        }
+
         /** @var CoordinatesDto $value */
 
         return $value->toJson();
